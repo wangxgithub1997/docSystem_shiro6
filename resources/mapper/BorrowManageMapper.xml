@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jf.weidong.doc.mapper.BorrowManageMapper">
+
+    <!--<select id="totalCount" resultType="int" parameterType="bookTypeQuery">
+        SELECT count(*) FROM booktype b where b.flag=0
+        <include refid="queryList"></include>
+    </select>-->
+    <select id="pageSearch" resultType="borrowInfoListVO" parameterType="query">
+        SELECT
+                bi.id borrowId,
+                bi.borrowDate,
+                bi.endDate,
+                bk.`name` bookName,
+                bk.ISBN,
+                r.paperNO,
+                r.`name` readerName
+                FROM
+                borrowinfo bi,
+                book bk,
+                reader r
+                WHERE
+                bi.fk_book = bk.id
+                AND bi.fk_reader = r.id ORDER BY bi.id DESC LIMIT #{start},#{pageSize}
+    </select>
+    <select id="totalCount" resultType="int">
+        SELECT
+                COUNT(*)
+                FROM
+                borrowinfo bi,
+                book bk,
+                reader r
+                WHERE
+                bi.fk_book = bk.id
+                AND bi.fk_reader = r.id
+    </select>
+</mapper>

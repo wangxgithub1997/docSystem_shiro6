@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+        <context:component-scan base-package="com.jf.weidong.doc.*">
+            <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        </context:component-scan>
+
+        <!--加载配置文件-->
+        <context:property-placeholder location="classpath:db.properties"/>
+
+        <!--绑定数据源-->
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+            <property name="driverClass" value="${jdbc.driverClassName}"></property>
+            <property name="jdbcUrl" value="${jdbc.url}"></property>
+            <property name="user" value="${jdbc.username}"></property>
+            <property name="password" value="${jdbc.password}"></property>
+        </bean>
+
+        <!--配置mybatis工厂信息-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mapper/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+        <!--配置mapper扫描-->
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <property name="basePackage" value="com.jf.weidong.doc.mapper"></property>
+        </bean>
+
+        <!--配置事务管理器-->
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="dataSource"></property>
+        </bean>
+
+        <!--开启事务注解-->
+        <tx:annotation-driven/>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!--配置安全管理器-->
+        <property name="securityManager" ref="securityManager"></property>
+        <!--可以不配置，因为在js里面我们进行了跳转-->
+        <!--<property name="successUrl" value="/admin/adminIndex"></property>-->
+        <!--没有权限跳转的路径-->
+        <!--<property name="unauthorizedUrl" value="500.jsp"></property>-->
+        <!--没有认证时跳转的页面-->
+        <property name="loginUrl" value="/admin/adminLogin"/>
+        <property name="filterChainDefinitions">
+            <value>
+                <!--设置允许匿名访问的地址-->
+                /static/**=anon
+                /admin/adminLoginController_login.action=anon
+                <!--拦截到退出，shiro框架会自动清除指定的session-->
+                /admin/adminLoginController_logout.action=logout
+                <!--其他路径设置为必须认证-->
+                /**=authc
+            </value>
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="realm"/>
+    </bean>
+    <bean id="realm" class="com.jf.weidong.doc.shiro.UserRealm"></bean>
+</beans>

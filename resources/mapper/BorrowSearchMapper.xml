@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jf.weidong.doc.mapper.BorrowSearchMapper">
+
+    <select id="pageSearch" resultType="borrowSearchListVO" parameterType="borrowSearchQuery">
+               SELECT bi.id borrowId,bk.ISBN ISBN ,bk.name bookName,r.paperNO paperNO,
+                r.name readerName,bi.borrowDate, back.backDate,bi.endDate FROM backinfo back
+                LEFT JOIN borrowinfo bi on back.id = bi.id
+                LEFT JOIN admin a on bi.fk_admin = a.id
+                LEFT JOIN reader r on bi.fk_reader = r.id
+                LEFT JOIN book bk on bi.fk_book = bk.id where 1=1
+                <include refid="queryList"></include>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="totalCount" resultType="int" parameterType="borrowSearchQuery">
+    SELECT count(*) FROM backinfo back
+                LEFT JOIN borrowinfo bi on back.id = bi.id
+                LEFT JOIN admin a on bi.fk_admin = a.id
+                LEFT JOIN reader r on bi.fk_reader = r.id
+                LEFT JOIN book bk on bi.fk_book = bk.id where 1=1
+        <include refid="queryList"></include>
+    </select>
+    <sql id="queryList">
+        <if test="borrowId>0">
+              and bi.id like CONCAT ('%' , #{borrowId} , '%')
+        </if>
+        <if test="ISBN!=null and ISBN!=''">
+            and bk.ISBN like CONCAT ('%' , #{ISBN} , '%')
+        </if>
+        <if test="paperNO!=null and paperNO!=''">
+            and r.paperNO like CONCAT ('%' ,#{paperNO}, '%')
+        </if>
+    </sql>
+</mapper>

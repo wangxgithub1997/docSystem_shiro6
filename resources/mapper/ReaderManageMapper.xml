@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jf.weidong.doc.mapper.ReaderManageMapper">
+
+    <select id="pageSearch" resultType="readerListVO" parameterType="readerQuery">
+        SELECT r.id,r.paperNO,r.`name` readerName,r.phone,r.createTime,rt.`name` readerTypeName
+        FROM reader r,readertype rt WHERE r.fk_readertype = rt.id
+        <include refid="queryList"></include>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="totalCount" resultType="int" parameterType="readerQuery">
+        SELECT COUNT(*) FROM reader r,readertype rt WHERE r.fk_readertype = rt.id
+        <include refid="queryList"></include>
+    </select>
+     <sql id="queryList">
+        <if test="paperNO!=null and paperNO!=''">
+            and r.paperNO like CONCAT ('%', #{paperNO}, '%')
+        </if>
+        <if test="name!=null and name!=''">
+            and r.name like CONCAT ('%', #{name}, '%')
+        </if>
+        <if test="readerType>0">
+            and rt.id = #{readerType}
+        </if>
+    </sql>
+</mapper>

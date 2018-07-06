@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <!--扫描指定的包 ，起别名
+        别名格式：类名首字母小写  adminDo
+        -->
+        <package name="com.jf.weidong.doc.domain"></package>
+    </typeAliases>
+
+</configuration>

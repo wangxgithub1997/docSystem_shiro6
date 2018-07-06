@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jf.weidong.doc.mapper.OverdueMapper">
+
+    <select id="pageSearch" resultType="overdueListVO" parameterType="overdueListQuery">
+        SELECT bi.id borrowId,bk.ISBN,bk.name bookName,r.paperNO,r.name readerName,
+                bi.overday,f.forfeit FROM overdueinfo f
+                LEFT JOIN borrowinfo bi on f.id = bi.id
+                LEFT JOIN book bk on bk.id = bi.fk_book
+                LEFT JOIN reader r on bi.fk_reader = r.id where 1=1
+                <include refid="queryList"></include>
+        limit #{start} ,#{pageSize}
+    </select>
+    <select id="totalCount" resultType="int" parameterType="overdueListQuery">
+         SELECT count(*) FROM overdueinfo f
+                LEFT JOIN borrowinfo bi on f.id = bi.id
+                LEFT JOIN book bk on bk.id = bi.fk_book
+                LEFT JOIN reader r on bi.fk_reader = r.id where 1=1
+             <include refid="queryList"></include>
+    </select>
+    <sql id="queryList">
+            <if test="ISBN!=null and ISBN!=''">
+                and bk.ISBN like CONCAT ('%' , #{ISBN} , '%')
+            </if>
+            <if test="paperNO!=null and paperNO!=''">
+                and r.paperNO like CONCAT ('%' , #{paperNO} , '%')
+            </if>
+            <if test="borrowId>0">
+                and f.id like CONCAT ('%' , #{borrowId} , '%')
+            </if>
+    </sql>
+</mapper>

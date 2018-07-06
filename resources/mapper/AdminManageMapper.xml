@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jf.weidong.doc.mapper.AdminManageMapper">
+
+    <!--一对一查询
+        关联查询 查询一张表包含另一张表的信息
+    -->
+    <resultMap id="query_list_map" type="adminDetailsVO">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="name" column="name"></result>
+        <result property="phone" column="phone"></result>
+        <result property="state" column="state"></result>
+        <association property="authorization" javaType="authorizationDO">
+            <id property="id" column="id"></id>
+            <result property="backSet" column="backSet"></result>
+            <result property="bookSet" column="bookSet"></result>
+            <result property="forfeitSet" column="forfeitSet"></result>
+            <result property="readerSet" column="readerSet"></result>
+            <result property="borrowSet" column="borrowSet"></result>
+            <result property="superSet" column="superSet"></result>
+            <result property="typeSet" column="typeSet"></result>
+            <result property="sysSet" column="sysSet"></result>
+        </association>
+    </resultMap>
+
+    <select id="pageSearch" resultMap="query_list_map" parameterType="adminListQuery">
+        SELECT a.id,a.username,a.`name`,a.phone,au.* FROM admin a,authorization au WHERE a.state = 1 AND a.id = au.id
+    <include refid="queryList"></include>
+        limit #{start},#{pageSize}
+   </select>
+    <select id="totalCount" resultType="int" parameterType="adminListQuery">
+        SELECT COUNT(*) FROM admin a WHERE a.state = 1
+        <include refid="queryList"></include>
+    </select>
+
+    <sql id="queryList">
+        <if test="adminName!=null and adminName!=''">
+            and a.name like CONCAT ('%', #{adminName} , '%')
+        </if>
+       <if test="adminUserName!=null and adminUserName!=''">
+           and a.username like CONCAT ('%', #{adminUserName} , '%')
+       </if>
+    </sql>
+
+    <insert id="addAdmin" parameterType="adminDO" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO `docsystem`.`admin` (`id`, `username`, `name`, `phone`, `state`, `password`)
+                 VALUES (null, #{username}, #{name}, #{phone}, #{state}, #{password})
+    </insert>
+
+</mapper>

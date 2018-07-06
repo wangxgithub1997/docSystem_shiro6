@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jf.weidong.doc.mapper.AdminMapper">
+    <select id="getAdminByName" parameterType="string" resultType="adminDO">
+      select * from admin where username = #{username} and state = 1 limit 1;
+    </select>
+    <select id="getAdminById" resultType="adminDO" parameterType="adminDO">
+        select * from admin where id = #{id} and state = 1 limit 1
+    </select>
+</mapper>

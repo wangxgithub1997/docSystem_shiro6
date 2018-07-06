@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jf.weidong.doc.mapper.ReaderTypeMapper">
+
+
+    <select id="pageSearch" resultType="readerTypeDO" parameterType="query">
+        SELECT * FROM readertype LIMIT #{start},#{pageSize}
+    </select>
+    <select id="totalCount" resultType="int">
+        SELECT COUNT(*) FROM readertype
+    </select>
+</mapper>

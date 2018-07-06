@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jf.weidong.doc.mapper.BookTypeManageMapper">
+    <update id="upadteBookTypeInfo" parameterType="bookTypeDO" >
+        update booktype set name = #{name}  WHERE id = #{id}
+    </update>
+
+    <select id="pageSearch" resultType="bookTypeDO" parameterType="bookTypeQuery">
+        SELECT * FROM booktype b where b.flag=0
+        <include refid="queryList"></include>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="totalCount" resultType="int" parameterType="bookTypeQuery">
+        SELECT count(*) FROM booktype b where b.flag=0
+        <include refid="queryList"></include>
+    </select>
+
+    <select id="getBookTypeById" resultType="bookTypeDO" parameterType="integer">
+        SELECT * FROM booktype WHERE id = #{id} limit 1
+    </select>
+
+    <sql id="queryList">
+        <if test="typeName!=null and typeName !=''">
+            and b.name like CONCAT('%',#{typeName},'%')
+        </if>
+    </sql>
+
+</mapper>
