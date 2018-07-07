@@ -42,6 +42,6 @@ public class T {
         //由上看出两种加密结果是不一致的
         Md5Hash md5Hash=new Md5Hash("admin","12345");
         System.out.println(md5Hash.toString());
-
+       //  9dc9d5ed5031367d42543763423c24ee  加盐  数据库加盐后密码
     }
 }

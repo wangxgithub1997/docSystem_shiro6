@@ -12,6 +12,7 @@ import com.jf.weidong.doc.mapper.AdminManageMapper;
 import com.jf.weidong.doc.mapper.AuthorizationMapper;
 import com.jf.weidong.doc.utils.JDBCTools;
 import com.jf.weidong.doc.utils.Md5Utils;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +56,10 @@ public class AdminManageService {
     @Transactional
     public int addAdmin(AdminDO a) {
             a.setState(1);//设置删除状态
-            a.setPassword(Md5Utils.md5("123456"));
+            //a.setPassword(Md5Utils.md5("123456"));
+        /*加盐 处理密码*/
+        Md5Hash md5Hash=new Md5Hash("admin","12345");
+        a.setPassword(md5Hash.toString());
             int i = adminManageMapper.addAdmin(a);
             if (i != -1) {
                 int id=a.getId();

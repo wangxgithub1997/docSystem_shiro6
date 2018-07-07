@@ -10,6 +10,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserRealm extends AuthorizingRealm {
@@ -30,6 +31,12 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+
+        /*subject.login(usernamePasswordToken);
+        我的理解
+        * 当调用login方法，进入到此认证方法中，根据用户名查找admin对象
+        * */
+
         //获取用户名
         String userName = (String)authenticationToken.getPrincipal();
         AdminDetailsVO admin = adminService.getAdminByName(new AdminDO(userName));
@@ -37,7 +44,16 @@ public class UserRealm extends AuthorizingRealm {
             throw new UnknownAccountException("没有用户");
         }
         String password = admin.getPassword();
-        return new SimpleAuthenticationInfo(admin,password,getName());
+
+        SimpleAuthenticationInfo info=
+                new SimpleAuthenticationInfo(admin,password,getName());
+                info.setCredentialsSalt(ByteSource.Util.bytes("12345"));
+        return info;
+          /*这块对比逻辑是先对比username，但是username肯定是相等的，所以真正对比的是password。
+        从这里传入的password（这里是从数据库获取的）和token（filter中登录时生成的）
+        中的password做对比，如果相同就允许登录，不相同就抛出异常。
+        如果验证成功，最终这里返回的信息authenticationInfo 的值与传入的第一个字段的值相同
+        （我这里传的是user对象）*/
     }
 
     /**
