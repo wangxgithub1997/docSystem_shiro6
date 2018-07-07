@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 <html lang="zh-CN" class="ax-vertical-centered">
@@ -81,12 +82,14 @@
                     <a href="${pageContext.request.contextPath}/admin/overDueManageController_list.action"><i
                             class="glyphicon glyphicon-chevron-right"></i>逾期处理</a>
                 </li>
-                <c:if test="${sessionScope.admin.authorization.superSet == 1}"><!-- 对超级管理员和普通管理员进行权限区分 -->
+                <%--<c:if test="${sessionScope.admin.authorization.superSet == 1}">--%><!-- 对超级管理员和普通管理员进行权限区分 -->
+                <shiro:hasPermission name="superSet">
                 <li>
                     <a href="${pageContext.request.contextPath}/admin/adminManageController_list.action"><i
                             class="glyphicon glyphicon-chevron-right"></i> 管理员管理</a>
                 </li>
-                </c:if>
+                </shiro:hasPermission>
+                <%--</c:if>--%>
                 <li>
                     <a href="${pageContext.request.contextPath}/admin/readerManageController_list.action"><i
                             class="glyphicon glyphicon-chevron-right"></i> 读者管理</a>
