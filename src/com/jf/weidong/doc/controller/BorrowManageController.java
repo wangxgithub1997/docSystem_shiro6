@@ -8,6 +8,8 @@ import com.jf.weidong.doc.domain.vo.BorrowInfoListVO;
 import com.jf.weidong.doc.service.BorrowManageService;
 import com.jf.weidong.doc.utils.DataUtils;
 import com.jf.weidong.doc.utils.Md5Utils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +27,7 @@ public class BorrowManageController {
      * 图书借阅列表
      */
     @RequestMapping("/admin/borrowManageController_list")
+    @RequiresPermissions(value = {"borrowSet","superSet"},logical =Logical.OR )
     public ModelAndView list(Query query) {
         query.setPageCode(DataUtils.getPageCode(query.getPageCode()+""));
         PageBean<BorrowInfoListVO> pb = borrowManageService.pageSearch(query);

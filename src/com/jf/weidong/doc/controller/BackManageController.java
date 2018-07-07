@@ -7,6 +7,8 @@ import com.jf.weidong.doc.domain.vo.AdminDetailsVO;
 import com.jf.weidong.doc.domain.vo.BackListVO;
 import com.jf.weidong.doc.service.BackManagerService;
 import com.jf.weidong.doc.utils.DataUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +28,7 @@ public class BackManageController {
      * @return
      */
     @RequestMapping("/admin/backManageController_list")
+    @RequiresPermissions(value = {"backSet","superSet"},logical =Logical.OR )
     public ModelAndView list(BackListQuery query) {
         query.setPageCode(DataUtils.getPageCode(query.getPageCode() + ""));
         PageBean<BackListVO> pb = backManagerService.pageSearch(query);

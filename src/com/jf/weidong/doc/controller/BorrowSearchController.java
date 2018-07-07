@@ -6,6 +6,8 @@ import com.jf.weidong.doc.domain.query.BorrowSearchQuery;
 import com.jf.weidong.doc.domain.vo.BorrowSearchListVO;
 import com.jf.weidong.doc.service.BorrowSearchService;
 import com.jf.weidong.doc.utils.DataUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +28,7 @@ public class BorrowSearchController {
      * 列表查询
      */
     @RequestMapping("/admin/borrowSearchController_list")
+    @RequiresPermissions(value = {"borrowSet","superSet"},logical =Logical.OR )
     public ModelAndView list(BorrowSearchQuery query) throws Exception {
         //获取页面传递过来的当前页码数
         int pageCode = DataUtils.getPageCode(query.getPageCode()+"");

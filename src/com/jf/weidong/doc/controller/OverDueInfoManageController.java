@@ -5,6 +5,8 @@ import com.jf.weidong.doc.domain.query.OverdueListQuery;
 import com.jf.weidong.doc.domain.vo.OverdueListVO;
 import com.jf.weidong.doc.service.OverDueInfoService;
 import com.jf.weidong.doc.utils.DataUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ public class OverDueInfoManageController {
 
 
     @RequestMapping("/admin/overDueManageController_list")
+    @RequiresPermissions(value = {"forfeitSet","superSet"},logical =Logical.OR )
     public ModelAndView list(OverdueListQuery query) throws Exception {
         //获取页面传递过来的当前页码数
         int pageCode = DataUtils.getPageCode(query.getPageCode()+"");

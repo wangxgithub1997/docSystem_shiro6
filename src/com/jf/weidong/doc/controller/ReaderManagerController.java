@@ -9,6 +9,8 @@ import com.jf.weidong.doc.domain.vo.ReaderDetailsVO;
 import com.jf.weidong.doc.domain.vo.ReaderListVO;
 import com.jf.weidong.doc.service.ReaderManagerService;
 import com.jf.weidong.doc.utils.Md5Utils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.jf.weidong.doc.utils.myspringmvc.RequestContextHolder;
@@ -30,6 +32,7 @@ public class ReaderManagerController {
      * 分页查询读者信息
      */
     @RequestMapping("/admin/readerManageController_list")
+    @RequiresPermissions(value = {"readerSet","superSet"},logical =Logical.OR )
     public ModelAndView list(ReaderQuery query) throws Exception {
         PageBean<ReaderListVO> pb = readerManagerService.pageSearch(query);
             ModelAndView view =new ModelAndView();

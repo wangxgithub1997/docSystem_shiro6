@@ -7,6 +7,8 @@ import com.jf.weidong.doc.domain.vo.AdminDetailsVO;
 import com.jf.weidong.doc.service.AdminManageService;
 import com.jf.weidong.doc.utils.DataUtils;
 import com.jf.weidong.doc.utils.Result;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;

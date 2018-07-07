@@ -5,6 +5,8 @@ import com.jf.weidong.doc.domain.data.ReaderTypeDO;
 import com.jf.weidong.doc.domain.query.Query;
 import com.jf.weidong.doc.service.ReaderTypeService;
 import com.jf.weidong.doc.utils.DataUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,7 @@ public class ReaderTypeManageController {
     ReaderTypeService service ;//= new ReaderTypeService();
 
     @RequestMapping("/admin/readerTypeManageController_list")
+    @RequiresPermissions(value = {"sysSet","superSet"},logical =Logical.OR )
     public ModelAndView list(Query query) throws IOException, ServletException {
         query.setPageCode(DataUtils.getPageCode(query.getPageCode()+""));
         PageBean<ReaderTypeDO> pb = service.pageSearch(query);

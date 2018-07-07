@@ -6,6 +6,8 @@ import com.jf.weidong.doc.domain.query.BookTypeQuery;
 import com.jf.weidong.doc.service.BookTypeManageService;
 import com.jf.weidong.doc.utils.DataUtils;
 import com.jf.weidong.doc.utils.Result;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,10 +45,11 @@ public class BookTypeManageController extends BaseController {
      *          所以只能将具体的实现由使用者来编写
      */
     @RequestMapping("/admin/bookTypeManageController_list")
+    @RequiresPermissions(value = {"typeSet","superSet"},logical =Logical.OR )
     public ModelAndView list(BookTypeQuery query) throws Exception {
         query.setPageCode(DataUtils.getPageCode(query.getPageCode()+""));
         PageBean<BookTypeDO> pb = service.pageSearch(query);
-        int i=1/0;
+        //int i=1/0;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/bookTypeManage");
         modelAndView.addObject("pb", pb);

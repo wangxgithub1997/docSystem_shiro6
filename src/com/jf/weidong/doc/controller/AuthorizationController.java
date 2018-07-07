@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import com.jf.weidong.doc.utils.myspringmvc.RequestContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import net.sf.json.JSONObject;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 
@@ -16,9 +17,10 @@ public class AuthorizationController {
     AuthorizationService authorizationService ;//= new AuthorizationService();
 
     @RequestMapping("/admin/authorizationController_getAuthorization")
-    public void getAuthorization(int id) throws IOException {
+    @ResponseBody
+    public AuthorizationDO getAuthorization(Integer id) throws IOException {
         AuthorizationDO authorizationById = authorizationService.getAuthorizationById(new AuthorizationDO(id));
-        RequestContextHolder.getResponse().getWriter().print(JSONObject.fromObject(authorizationById).toString());
+        return authorizationById;
     }
 
     @RequestMapping("/admin/authorizationController_addAuthorization")

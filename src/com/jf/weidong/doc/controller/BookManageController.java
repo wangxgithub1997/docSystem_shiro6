@@ -9,6 +9,8 @@ import com.jf.weidong.doc.domain.vo.BookDetailsVO;
 import com.jf.weidong.doc.domain.vo.BookManageListVO;
 import com.jf.weidong.doc.service.BookManageService;
 import com.jf.weidong.doc.utils.DataUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +37,7 @@ public class BookManageController {
     BookManageService service ;//= new BookManageService();
 
     @RequestMapping("/admin/bookManageController_list")
+    @RequiresPermissions(value = {"bookSet","superSet"},logical =Logical.OR )
     public ModelAndView list(BookManageQuery query)  {
         query.setPageCode(DataUtils.getPageCode(query.getPageCode()+""));
         query.setStart((query.getPageCode()-1)*query.getPageSize());
