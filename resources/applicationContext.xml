@@ -70,5 +70,12 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="realm"/>
     </bean>
-    <bean id="realm" class="com.jf.weidong.doc.shiro.UserRealm"></bean>
+    <bean id="realm" class="com.jf.weidong.doc.shiro.UserRealm">
+        <property name="credentialsMatcher" ref="credentialsMatcher"></property>
+    </bean>
+
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="md5"></property>
+        <property name="hashIterations" value="1"></property>
+    </bean>
 </beans>

@@ -46,8 +46,9 @@ public class AdminLoginController extends BaseController{
     public Integer login(HttpSession httpSession, AdminDO adminDO) throws IOException {
 
         Subject subject = SecurityUtils.getSubject();
+        //使用框架自动加密
         UsernamePasswordToken usernamePasswordToken=
-                new UsernamePasswordToken(adminDO.getUsername(),Md5Utils.md5(adminDO.getPassword()));
+                new UsernamePasswordToken(adminDO.getUsername(),adminDO.getPassword());
         int resultCode = 1;
         try {
             subject.login(usernamePasswordToken);
