@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jf.weidong.doc.utils.Result;
 
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,11 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class AopException {
-  /*  @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     @ResponseBody
     public ModelAndView handlerException(HttpServletRequest request, HttpServletResponse response, Exception ex) throws IOException {
+        //判断是否权限异常
+        if(ex instanceof UnauthorizedException){
+            return new ModelAndView("error/nopass");
+        }
         //判断ajax请求
         if(request.getHeader("X-Requested-With") != null
                && request.getHeader("X-Requested-With")
@@ -38,5 +43,5 @@ public class AopException {
         }else{
             return new ModelAndView("error/500");
         }
-    }*/
+    }
 }
