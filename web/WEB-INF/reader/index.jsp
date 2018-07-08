@@ -51,7 +51,7 @@
                                 <li role="presentation" class="divider"></li>
                                 <li><a href="#updatepwd" data-toggle="modal">修改密码</a></li>
                                 <li role="presentation" class="divider"></li>
-                                <li><a href="${pageContext.request.contextPath}/readerLoginController_logout.action">退出</a>
+                                <li><a href="${pageContext.request.contextPath}/reader/readerLoginController_logout.action">退出</a>
                                 </li>
                             </ul>
                         </li>

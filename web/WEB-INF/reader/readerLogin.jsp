@@ -39,7 +39,7 @@
             <form class="bootstrap-admin-login-form">
                 <div class="form-group">
                     <label class="control-label" for="username">账&nbsp;号</label>
-                    <input type="text" value="111" class="form-control" id="username" placeholder="学号"/>
+                    <input type="text" value="1111" class="form-control" id="username" placeholder="学号"/>
                     <label class="control-label" for="username" style="display:none;"></label>
                 </div>
                 <div class="form-group">

@@ -49,7 +49,7 @@
         <!--可以不配置，因为在js里面我们进行了跳转-->
         <!--<property name="successUrl" value="/admin/adminIndex"></property>-->
         <!--没有权限跳转的路径-->
-        <property name="unauthorizedUrl" value="/nopass"></property>
+        <!--<property name="unauthorizedUrl" value="/nopass"></property>-->
         <!--没有认证时跳转的页面-->
         <property name="loginUrl" value="/admin/adminLogin"/>
         <property name="filterChainDefinitions">
@@ -57,11 +57,16 @@
                 <!--设置允许匿名访问的地址-->
                 /static/**=anon
                 /admin/adminLoginController_login.action=anon
+                /reader/readerLoginController_login.action=anon
                 <!--拦截到退出，shiro框架会自动清除指定的session-->
                 /admin/adminLoginController_logout.action=logout
-                <!--配置文件方式进行权限控制如果没有权限，那么跳转的页面是：unauthorizedUrl 配置的页面-->
-                /admin/bookManageController_list.action=perms["bookSet"]
+                /reader/readerLoginController_logout.action=logout
+               <!-- &lt;!&ndash;配置文件方式进行权限控制如果没有权限，那么跳转的页面是：unauthorizedUrl 配置的页面&ndash;&gt;
+                /admin/bookManageController_list.action=perms["bookSet"]-->
                 <!--其他路径设置为必须认证-->
+                /admin/adminLogin=anon
+                <!--读者登陆可以匿名访问-->
+                /reader/readerLogin=anon
                 /**=authc
             </value>
         </property>
