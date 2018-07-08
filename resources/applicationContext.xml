@@ -43,6 +43,21 @@
         <!--开启事务注解-->
         <tx:annotation-driven/>
 
+    <!--自定义shiro过滤器-->
+    <bean id="readerLogoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="/reader/readerLogin"></property>
+    </bean>
+    <bean id="adminLogoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="/admin/adminLogin"></property>
+    </bean>
+    <bean id="readerLoginFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+        <property name="loginUrl" value="/reader/readerLogin"></property>
+    </bean>
+    <bean id="adminLoginFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+        <property name="loginUrl" value="/admin/adminLogin"></property>
+    </bean>
+
+
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <!--配置安全管理器-->
         <property name="securityManager" ref="securityManager"></property>
@@ -52,6 +67,18 @@
         <!--<property name="unauthorizedUrl" value="/nopass"></property>-->
         <!--没有认证时跳转的页面-->
         <property name="loginUrl" value="/admin/adminLogin"/>
+
+        <!--配置过滤器-->
+        <property name="filters">
+            <map>
+                <entry key="readerLogoutFilter" value-ref="readerLogoutFilter"></entry>
+                <entry key="adminLogoutFilter" value-ref="adminLogoutFilter"></entry>
+                <entry key="readerLoginFilter" value-ref="readerLoginFilter"></entry>
+                <entry key="adminLoginFilter" value-ref="adminLoginFilter"></entry>
+
+            </map>
+        </property>
+
         <property name="filterChainDefinitions">
             <value>
                 <!--设置允许匿名访问的地址-->
@@ -59,14 +86,20 @@
                 /admin/adminLoginController_login.action=anon
                 /reader/readerLoginController_login.action=anon
                 <!--拦截到退出，shiro框架会自动清除指定的session-->
-                /admin/adminLoginController_logout.action=logout
-                /reader/readerLoginController_logout.action=logout
+                /admin/adminLoginController_logout.action=adminLogoutFilter
+                /reader/readerLoginController_logout.action=readerLogoutFilter
                <!-- &lt;!&ndash;配置文件方式进行权限控制如果没有权限，那么跳转的页面是：unauthorizedUrl 配置的页面&ndash;&gt;
                 /admin/bookManageController_list.action=perms["bookSet"]-->
                 <!--其他路径设置为必须认证-->
                 /admin/adminLogin=anon
                 <!--读者登陆可以匿名访问-->
                 /reader/readerLogin=anon
+
+                <!--配置自定义读者过滤器-->
+                /reader/*=readerLoginFilter
+                /admin/*=adminLoginFilter
+                <!--退出时也要跳转到相应界面-->
+
                 /**=authc
             </value>
         </property>

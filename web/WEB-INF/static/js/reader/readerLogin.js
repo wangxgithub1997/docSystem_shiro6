@@ -7,7 +7,7 @@ $(function () {
              }else if(data == -1){
                  showInfo("账号不存在");
              }else if(data == -2){
-                 showInfo("密码错误");
+                 showInfo("用户名或密码错误");
             }
          });
      });

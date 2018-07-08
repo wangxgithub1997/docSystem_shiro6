@@ -3,6 +3,7 @@ package com.jf.weidong.doc.controller;
 import com.jf.weidong.doc.domain.data.AdminDO;
 import com.jf.weidong.doc.domain.vo.AdminDetailsVO;
 import com.jf.weidong.doc.service.AdminService;
+import com.jf.weidong.doc.shiro.UsernamePasswordTypeToken;
 import com.jf.weidong.doc.utils.Md5Utils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -47,11 +48,11 @@ public class AdminLoginController extends BaseController{
 
         Subject subject = SecurityUtils.getSubject();
         //使用框架自动加密
-        UsernamePasswordToken usernamePasswordToken=
-                new UsernamePasswordToken(adminDO.getUsername(),adminDO.getPassword());
+        UsernamePasswordTypeToken token=
+                new UsernamePasswordTypeToken(adminDO.getUsername(),adminDO.getPassword(),UsernamePasswordTypeToken.ADMIN);
         int resultCode = 1;
         try {
-            subject.login(usernamePasswordToken);
+            subject.login(token);
         } catch (AuthenticationException e) {
             e.printStackTrace();
             resultCode=-2;

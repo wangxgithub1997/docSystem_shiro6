@@ -40,10 +40,10 @@ public class UserRealm extends AuthorizingRealm {
         //使用我们写的 UsernamePasswordTypeToken
         UsernamePasswordTypeToken token=(UsernamePasswordTypeToken)authenticationToken;
         if(token.getType()==UsernamePasswordTypeToken.READER){
-            //principle 和username的区别
-            //Object principal = token.getPrincipal();
-            String username = token.getUsername();
-            ReaderDO readerByPNO = readerService.getReaderByPNO(new ReaderDO(username));
+            //principle 和username 都可以
+            String principal = (String)token.getPrincipal();
+            //String username = token.getUsername();
+            ReaderDO readerByPNO = readerService.getReaderByPNO(new ReaderDO(principal));
             if(readerByPNO==null){
                 throw new UnknownAccountException("没有读者");
             }
