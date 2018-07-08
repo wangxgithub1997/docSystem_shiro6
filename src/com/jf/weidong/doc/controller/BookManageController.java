@@ -9,6 +9,7 @@ import com.jf.weidong.doc.domain.vo.BookDetailsVO;
 import com.jf.weidong.doc.domain.vo.BookManageListVO;
 import com.jf.weidong.doc.service.BookManageService;
 import com.jf.weidong.doc.utils.DataUtils;
+import com.jf.weidong.doc.utils.Result;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,23 +116,21 @@ public class BookManageController {
      * 更新书籍信息
      */
     @RequestMapping("/admin/bookManageController_updateBook")
-    public void updateBook(HttpServletRequest request, HttpServletResponse response) throws InvocationTargetException, IllegalAccessException, IOException {
+    @ResponseBody
+    public Result updateBook(HttpServletRequest request) throws InvocationTargetException, IllegalAccessException, IOException {
         BookDO bookDO = new BookDO();
         bookDO.setId(Integer.parseInt(request.getParameter("bookId")));
         bookDO.setName(request.getParameter("bookName"));
         bookDO.setFk_booktype(Integer.parseInt(request.getParameter("bookTypeId")));
         BeanUtils.copyProperties(bookDO, request.getParameterMap());
         System.out.println(bookDO);
-
         //更新指定的字段
         int count = service.updateBook(bookDO);
-
         int resultCode = -1;
-
         if (count > 0) {
             resultCode = 1;
         }
-        response.getWriter().print(resultCode);
+        return new Result(resultCode);
     }
 
     /**
@@ -144,7 +143,6 @@ public class BookManageController {
         BookDO bookDO = new BookDO();
         bookDO.setId(bookId);
         bookDO.setNum(num);
-
         int count = service.addBookNum(bookDO);
         int resultCode = -1;
         if (count > 0) {
@@ -202,9 +200,4 @@ public class BookManageController {
         JSONObject jsonObject = service.batchAddBook(request.getParameter("fileName"), vo);
         response.getWriter().write(jsonObject.toString());
     }
-
-
-
-
-
 }

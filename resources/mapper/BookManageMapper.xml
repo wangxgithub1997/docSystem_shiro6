@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jf.weidong.doc.mapper.BookManageMapper">
 
+    <!--分页查询-->
     <select id="pageSearch" resultType="BookManageListVO" parameterType="bookManageQuery">
         SELECT b.*,bt.name bookType FROM book b,booktype bt WHERE b.fk_booktype = bt.id
         <include refid="queryList"></include>
@@ -32,7 +33,27 @@
         <include refid="queryList"></include>
     </select>
 
+    <!--查看-->
     <select id="getBookById" resultType="bookDO" parameterType="bookDO">
         SELECT * FROM book WHERE id = #{id}
     </select>
+
+    <!--修改   修改默认有返回值-->
+    <update id="updateBook" parameterType="bookDO">
+      UPDATE `book`
+      SET `name`=#{name}, `ISBN`=#{ISBN},
+      `autho`=#{autho}, `press`=#{press},
+      `description`=#{description}, `price`=#{price} ,
+      `fk_booktype`=#{fk_booktype} WHERE `id`=#{id}
+    </update>
+
+    <!--新增图书数量-->
+    <update id="addBookNum" parameterType="bookDO">
+        UPDATE `book`
+        SET `num`=#{num},
+        `currentNum`=#{currentNum} WHERE (`id`=#{id})
+    </update>
+
+
+
 </mapper>

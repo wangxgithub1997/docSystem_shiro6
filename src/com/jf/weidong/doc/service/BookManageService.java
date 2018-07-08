@@ -127,29 +127,20 @@ public class BookManageService{
      * 更新书籍信息
      */
     public int updateBook(BookDO bookDO) {
-        try {
-            return dao.updateBook(bookDO);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        int row=bookManageMapper.updateBook(bookDO);
+        return row;
     }
     /**
      * 修改书籍数量
      */
     public int addBookNum(BookDO bookDO) {
-        try {
             //获取之前的数据
-            BookDO book = dao.getBookById(bookDO);
+            BookDO book = bookManageMapper.getBookById(bookDO);
             //设置数量
             int bookDONum = bookDO.getNum();
             bookDO.setNum(book.getNum() + bookDONum);
             bookDO.setCurrentNum(book.getCurrentNum() + bookDONum);
-            return dao.addBookNum(bookDO);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+            return bookManageMapper.addBookNum(bookDO);
     }
 
     /**

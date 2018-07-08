@@ -12,4 +12,9 @@ public interface BookManageMapper {
     Integer totalCount(BookManageQuery query);
     //查看
     BookDO getBookById(BookDO bookDO);
+    //修改
+    Integer updateBook(BookDO bookDO);
+    //新增图书 数量
+    /*Integer addBookNum(BookDO bookDO);*/
+    Integer addBookNum(BookDO bookDO);
 }

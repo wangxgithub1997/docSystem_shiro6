@@ -12,7 +12,7 @@ $(function () {
             + "&description=" + $.trim($("#updateDescription").val())
             + "&ISBN=" + $.trim($("#updateISBN").val());
         $.post("/admin/bookManageController_updateBook.action", postData, function (data) {
-            if (data == 1) {
+            if (data.code == 1) {
                 //关闭之前的模态框
                 $("#updateModal").modal("hide");
                 //弹出修改成功的模态框
