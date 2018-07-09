@@ -67,6 +67,4 @@
                  #{description}, #{price}, #{putdate}, #{fk_booktype}, #{fk_admin})
     </insert>
 
-
-
 </mapper>

@@ -26,4 +26,9 @@
         </if>
     </sql>
 
+    <!--根据图书分类名称查找图书信息-->
+    <select id="getBookTypeByName" resultType="bookTypeDO" parameterType="bookTypeDO">
+        SELECT * FROM booktype WHERE name = #{name} limit 1
+    </select>
+
 </mapper>

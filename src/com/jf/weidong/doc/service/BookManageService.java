@@ -377,7 +377,7 @@ public class BookManageService{
 
                 //ISBN在数据库中也可能重复-------------------------------------------
                 //根据isbn查询图书信息
-                BookDO byISBN = dao.getBookByISBN(new BookDO(ISBN));
+                BookDO byISBN = bookManageMapper.getBookByISBN(new BookDO(ISBN));
                 if (byISBN != null) {
                     failure.add(BookExportFailureVO.createBookExportFailureVO(ISBN,
                             bookName, author,
@@ -390,7 +390,7 @@ public class BookManageService{
 
                 //判断图书类型是否存在--------------------------------------------------------------------------
                 //根据图书类型名称查询对应的图书类型
-                BookTypeDO byTypeName = bookTypeManageDao.getBookTypeByName(new BookTypeDO(type));
+                BookTypeDO byTypeName = bookTypeManageMapper.getBookTypeByName(new BookTypeDO(type));
                 if (byTypeName == null) {
                     failure.add(BookExportFailureVO.createBookExportFailureVO(ISBN,
                             bookName, author,
@@ -412,7 +412,12 @@ public class BookManageService{
             }
             workbook.close();
             //插入数据库
-            dao.batchAddBook(success);
+            /*dao.batchAddBook(success);*/
+            List<BookDO> fBooks = new ArrayList<>();
+            for (int i = 0; i < success.size(); i++) {
+                 bookManageMapper.addBook(success.get(i));
+            }
+
             if(!failure.isEmpty()){
                 //有失败的数据
                 jsonObject.put("code", -4);
@@ -429,8 +434,6 @@ public class BookManageService{
         } catch (IOException e) {
             e.printStackTrace();
         } catch (BiffException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;

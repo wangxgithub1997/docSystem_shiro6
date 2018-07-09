@@ -13,4 +13,7 @@ public interface BookTypeManageMapper {
     BookTypeDO getBookTypeById(Integer id);
     Integer upadteBookTypeInfo(BookTypeDO typeDO);
     BookTypeDO getBookTypeById(BookTypeDO BookTypeDO);
+
+    /*根据图书分类名称查找是否有此分类信息*/
+    BookTypeDO getBookTypeByName(BookTypeDO typeDO);
 }

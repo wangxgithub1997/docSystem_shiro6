@@ -2,6 +2,7 @@ package com.jf.weidong.doc.mapper;
 
 import com.jf.weidong.doc.domain.PageBean;
 import com.jf.weidong.doc.domain.data.BookDO;
+import com.jf.weidong.doc.domain.data.BookTypeDO;
 import com.jf.weidong.doc.domain.query.BookManageQuery;
 import com.jf.weidong.doc.domain.vo.BookManageListVO;
 
@@ -21,4 +22,6 @@ public interface BookManageMapper {
     BookDO getBookByISBN(BookDO bookDO);
     //添加图书
     Integer addBook(BookDO bookDO);
+
+
 }
