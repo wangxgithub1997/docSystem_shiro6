@@ -30,5 +30,14 @@
     <select id="getBookTypeByName" resultType="bookTypeDO" parameterType="bookTypeDO">
         SELECT * FROM booktype WHERE name = #{name} limit 1
     </select>
+    <!--添加图书分类信息-->
+    <update id="addBookType" parameterType="bookTypeDO">
+        INSERT INTO booktype VALUES(null,#{name},0)
+    </update>
+
+    <!--删除图书-->
+    <delete id="deleteBookTypeById" parameterType="bookTypeDO">
+        delete from BookType where id = #{id}
+    </delete>
 
 </mapper>
