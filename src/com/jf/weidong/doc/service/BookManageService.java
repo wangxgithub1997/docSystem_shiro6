@@ -83,21 +83,11 @@ public class BookManageService{
 
 
     public int addBook(BookDO bookDO) {
-        try {
-            return dao.addBook(bookDO);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+            return bookManageMapper.addBook(bookDO);
     }
 
     public BookDO getBookByISBN(BookDO bookDO) {
-        try {
-            return dao.getBookByISBN(bookDO);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+            return bookManageMapper.getBookByISBN(bookDO);
     }
 
     /**

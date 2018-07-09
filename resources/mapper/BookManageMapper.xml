@@ -54,6 +54,19 @@
         `currentNum`=#{currentNum} WHERE (`id`=#{id})
     </update>
 
+    <!--根据图书ISBN查找书籍-->
+    <select id="getBookByISBN" parameterType="bookDO" resultType="bookDO">
+      SELECT * FROM book WHERE ISBN = #{ISBN}
+    </select>
+    <!--添加图书-->
+    <insert id="addBook" parameterType="bookDO">
+        INSERT INTO `book`
+         (`id`, `name`, `ISBN`, `autho`, `num`, `currentNum`, `press`,
+                 `description`, `price`, `putdate`, `fk_booktype`, `fk_admin`)
+                VALUES (null, #{name},#{ISBN}, #{autho}, #{num},#{currentNum}, #{press},
+                 #{description}, #{price}, #{putdate}, #{fk_booktype}, #{fk_admin})
+    </insert>
+
 
 
 </mapper>

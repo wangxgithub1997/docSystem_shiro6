@@ -17,4 +17,8 @@ public interface BookManageMapper {
     //新增图书 数量
     /*Integer addBookNum(BookDO bookDO);*/
     Integer addBookNum(BookDO bookDO);
+
+    BookDO getBookByISBN(BookDO bookDO);
+    //添加图书
+    Integer addBook(BookDO bookDO);
 }

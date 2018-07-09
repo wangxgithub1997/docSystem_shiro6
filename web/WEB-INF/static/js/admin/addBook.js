@@ -9,10 +9,10 @@ $(function () {
             + "&description=" + $.trim($("#addDescription").val()) + "&bookTypeId="
             + $.trim($("#addBookType").val()) + "&ISBN=" + $.trim($("#addISBN").val());
         $.post("/admin/bookManageController_addBook.action", postData, function (data) {
-            if (data == 1) {
+            if (data.code == 1) {
                 $("#addModal").modal("hide");//关闭模糊框
                 showInfo("添加成功");
-            } else if (data == -2) {
+            } else if (data.code == -2) {
                 $("#addModal").modal("hide");//关闭模糊框
                 showInfo("图书isbn重复了");
             }

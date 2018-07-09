@@ -12,11 +12,11 @@ import com.jf.weidong.doc.utils.DataUtils;
 import com.jf.weidong.doc.utils.Result;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.web.session.HttpServletSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import com.jf.weidong.doc.utils.myspringmvc.RequestContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -76,8 +76,9 @@ public class BookManageController {
      * 3.
      */
     @RequestMapping("/admin/bookManageController_addBook")
-    public void addBook(BookDO bookDO,int bookTypeId) throws IOException {
-        AdminDetailsVO vo = (AdminDetailsVO)RequestContextHolder.getSession().getAttribute("admin");
+    @ResponseBody
+    public Result addBook(HttpServletRequest request, BookDO bookDO, Integer bookTypeId) throws IOException {
+        AdminDetailsVO vo = (AdminDetailsVO)request.getSession().getAttribute("admin");
         bookDO.setFk_booktype(bookTypeId);
         bookDO.setFk_admin(vo.getId());
         //上架时间为添加时间
@@ -94,7 +95,7 @@ public class BookManageController {
         } else {
             resultCode = -2;
         }
-        RequestContextHolder.getResponse().getWriter().print(resultCode);
+        return new Result(resultCode);
     }
     /**
      * 1. 点击列表的查看按钮，调用js方法，传递图书的id，发起ajax请求，根据id查询指定的图书信息
